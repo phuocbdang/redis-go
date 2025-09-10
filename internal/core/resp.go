@@ -4,12 +4,11 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"redisgo/internal/constant"
 	"strings"
 )
 
 const CRLF = "\r\n"
-
-var RespNil = []byte("$-1\r\n")
 
 func encodeString(s string) []byte {
 	return []byte(fmt.Sprintf("$%d%s%s%s", len(s), CRLF, s, CRLF))
@@ -52,7 +51,7 @@ func Encode(value interface{}, isSimpleString bool) []byte {
 		}
 		return []byte(fmt.Sprintf("*%d%s%s", len(v), CRLF, buf.Bytes()))
 	default:
-		return RespNil
+		return constant.RespNil
 	}
 }
 

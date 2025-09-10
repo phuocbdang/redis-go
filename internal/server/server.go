@@ -8,6 +8,7 @@ import (
 	"redisgo/internal/core"
 	"redisgo/internal/core/io_multiplexing"
 	"syscall"
+	"time"
 )
 
 func readCommand(fd int) (*core.Command, error) {
@@ -58,7 +59,13 @@ func RunIOMultiplexingServer() {
 		log.Fatal(err)
 	}
 
+	lastActiveExpireExecTime := time.Now()
 	for {
+		if time.Now().After(lastActiveExpireExecTime.Add(core.ACTIVE_EXPIRE_FREQUENCY)) {
+			core.ActiveDeleteExpiredKeys()
+			lastActiveExpireExecTime = time.Now()
+		}
+
 		// Wait for file descriptors in the monitoring list to be ready for I/O
 		events, err := ioMultiplexer.Wait() // Blocking call
 		if err != nil {
