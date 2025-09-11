@@ -9,12 +9,22 @@ func ExecuteAndResponse(cmd *Command, connFd int) error {
 	switch cmd.Cmd {
 	case "PING":
 		res = cmdPING(cmd.Args)
+	// Dict
 	case "SET":
 		res = cmdSET(cmd.Args)
 	case "GET":
 		res = cmdGET(cmd.Args)
 	case "TTL":
 		res = cmdTTL(cmd.Args)
+	// Set
+	case "SADD":
+		res = cmdSADD(cmd.Args)
+	case "SREM":
+		res = cmdSREM(cmd.Args)
+	case "SMEMBERS":
+		res = cmdSMEMBERS(cmd.Args)
+	case "SISMEMBER":
+		res = cmdSISMEMBER(cmd.Args)
 	default:
 		res = []byte("-CMD NOT FOUND\r\n")
 	}
