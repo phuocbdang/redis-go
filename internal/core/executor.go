@@ -25,6 +25,13 @@ func ExecuteAndResponse(cmd *Command, connFd int) error {
 		res = cmdSMEMBERS(cmd.Args)
 	case "SISMEMBER":
 		res = cmdSISMEMBER(cmd.Args)
+	// Sorted Set
+	case "ZADD":
+		res = cmdZADD(cmd.Args)
+	case "ZSCORE":
+		res = cmdZSCORE(cmd.Args)
+	case "ZRANK":
+		res = cmdZRANK(cmd.Args)
 	default:
 		res = []byte("-CMD NOT FOUND\r\n")
 	}
