@@ -27,7 +27,7 @@ func cmdZADD(args []string) []byte {
 	key := args[0]
 	zset, exist := zsetStore[key]
 	if !exist {
-		zset = data_structure.NewSortedSet(DEFAULT_BPLUS_TREE_DEGREE)
+		zset = data_structure.NewZSetBPlusTree(DEFAULT_BPLUS_TREE_DEGREE)
 		zsetStore[key] = zset
 	}
 
