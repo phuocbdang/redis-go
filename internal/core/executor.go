@@ -32,6 +32,15 @@ func ExecuteAndResponse(cmd *Command, connFd int) error {
 		res = cmdZSCORE(cmd.Args)
 	case "ZRANK":
 		res = cmdZRANK(cmd.Args)
+	// Count-min Sketch
+	case "CMS.INITBYDIM":
+		res = cmdCMSINITBYDIM(cmd.Args)
+	case "CMS.INITBYPROB":
+		res = cmdCMSINITBYPROB(cmd.Args)
+	case "CMS.INCRBY":
+		res = cmdCMSINCRBY(cmd.Args)
+	case "CMS.QUERY":
+		res = cmdCMSQUERY(cmd.Args)
 	default:
 		res = []byte("-CMD NOT FOUND\r\n")
 	}
