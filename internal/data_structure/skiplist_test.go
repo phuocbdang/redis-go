@@ -12,7 +12,7 @@ func TestCreateSkiplist(t *testing.T) {
 	if sl.level != 1 {
 		t.Fail()
 	}
-	if len(sl.head.levels) != SKIPLIST_MAX_LEVEL {
+	if len(sl.head.levels) != SkiplistMaxLevel {
 		t.Fail()
 	}
 	if sl.tail != nil {
@@ -57,7 +57,7 @@ func TestInsertSkiplist(t *testing.T) {
 	if sl.head.levels[0].forward.levels[0].forward.levels[0].forward != sl.tail.backward {
 		t.Fail()
 	}
-	for i := sl.level; i < SKIPLIST_MAX_LEVEL; i++ {
+	for i := sl.level; i < SkiplistMaxLevel; i++ {
 		if sl.head.levels[i].span != 0 {
 			t.Fail()
 		}
@@ -150,7 +150,7 @@ func TestDeleteSkiplist(t *testing.T) {
 	if node3 != sl.tail {
 		t.Errorf("expected node3 == sl.tail")
 	}
-	for i := sl.level; i < SKIPLIST_MAX_LEVEL; i++ {
+	for i := sl.level; i < SkiplistMaxLevel; i++ {
 		if sl.head.levels[i].forward != nil {
 			t.Errorf("expected sl.head.levels[%v].forward == nil", i)
 		}
@@ -163,7 +163,7 @@ func TestDeleteSkiplist(t *testing.T) {
 	if sl.length != 2 {
 		t.Errorf("expected length 2, got %v", sl.length)
 	}
-	
+
 	node1 = sl.head.levels[0].forward
 	node2 = node1.levels[0].forward
 	if node1.score != 10 {
@@ -181,7 +181,7 @@ func TestDeleteSkiplist(t *testing.T) {
 	if node2 != sl.tail {
 		t.Errorf("expected node2 == sl.tail")
 	}
-	for i := sl.level; i < SKIPLIST_MAX_LEVEL; i++ {
+	for i := sl.level; i < SkiplistMaxLevel; i++ {
 		if sl.head.levels[i].forward != nil {
 			t.Errorf("expected sl.head.levels[%v].forward == nil", i)
 		}

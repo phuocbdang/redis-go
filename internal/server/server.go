@@ -61,7 +61,7 @@ func RunIOMultiplexingServer() {
 
 	lastActiveExpireExecTime := time.Now()
 	for {
-		if time.Now().After(lastActiveExpireExecTime.Add(core.ACTIVE_EXPIRE_FREQUENCY)) {
+		if time.Now().After(lastActiveExpireExecTime.Add(core.ActiveExpireFrequency)) {
 			core.ActiveDeleteExpiredKeys()
 			lastActiveExpireExecTime = time.Now()
 		}

@@ -6,8 +6,8 @@ import (
 	"github.com/spaolacci/murmur3"
 )
 
-// LOG_10_POINT_FIVE is a precomputed for log10(0.5)
-const LOG_10_POINT_FIVE = -0.30102999566
+// Log10PointFive is a precomputed for log10(0.5)
+const Log10PointFive = -0.30102999566
 
 // CMS stands for Count-min Sketch data structure
 // The counter filed has been changed to a 2D slice for better clarity and indexing
@@ -35,7 +35,7 @@ func CreateCMS(w uint32, d uint32) *CMS {
 // based on the desired error rate and probability
 func CalcCMSDim(errRate float64, probability float64) (uint32, uint32) {
 	w := uint32(math.Ceil(2.0 / errRate))
-	d := uint32(math.Ceil(math.Log10(probability) / LOG_10_POINT_FIVE))
+	d := uint32(math.Ceil(math.Log10(probability) / Log10PointFive))
 	return w, d
 }
 

@@ -2,14 +2,14 @@ package core
 
 import "time"
 
-const ACTIVE_EXPIRE_FREQUENCY = 100 * time.Millisecond
-const ACTIVE_EXPIRE_SAMPLE_SIZE = 20
-const ACTIVE_EXPIRE_THRESHOLD = 0.1
+const ActiveExpireFrequency = 100 * time.Millisecond
+const ActiveExpireSampleSize = 20
+const ActiveExpireThreshold = 0.1
 
 func ActiveDeleteExpiredKeys() {
 	for {
 		expiredCount := 0
-		sampleCountRemain := ACTIVE_EXPIRE_SAMPLE_SIZE
+		sampleCountRemain := ActiveExpireSampleSize
 		for key, expireTime := range dictStore.GetExpireDictStore() {
 			sampleCountRemain--
 			if sampleCountRemain < 0 {
@@ -21,7 +21,7 @@ func ActiveDeleteExpiredKeys() {
 			}
 		}
 
-		if float64(expiredCount)/float64(ACTIVE_EXPIRE_SAMPLE_SIZE) < ACTIVE_EXPIRE_THRESHOLD {
+		if float64(expiredCount)/float64(ActiveExpireSampleSize) < ActiveExpireThreshold {
 			break
 		}
 	}

@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-const SKIPLIST_MAX_LEVEL = 32
+const SkiplistMaxLevel = 32
 
 type SkiplistLevel struct {
 	forward *SkiplistNode
@@ -32,8 +32,8 @@ func (sl *Skiplist) randomLevel() int {
 	for rand.Intn(2) == 1 {
 		level++
 	}
-	if level > SKIPLIST_MAX_LEVEL {
-		return SKIPLIST_MAX_LEVEL
+	if level > SkiplistMaxLevel {
+		return SkiplistMaxLevel
 	}
 	return level
 }
@@ -52,7 +52,7 @@ func CreateSkiplist() *Skiplist {
 		length: 0,
 		level:  1,
 	}
-	sl.head = sl.CreateNode(SKIPLIST_MAX_LEVEL, math.Inf(-1), "")
+	sl.head = sl.CreateNode(SkiplistMaxLevel, math.Inf(-1), "")
 	sl.head.backward = nil
 	sl.tail = nil
 	return &sl
@@ -69,8 +69,8 @@ func (sl *Skiplist) Insert(score float64, ele string) *SkiplistNode {
 	// at each level to insert the new node
 	// `rank` stores the number of nodes visited at each level while searching
 	// for the insertion position
-	update := [SKIPLIST_MAX_LEVEL]*SkiplistNode{}
-	rank := [SKIPLIST_MAX_LEVEL]uint32{}
+	update := [SkiplistMaxLevel]*SkiplistNode{}
+	rank := [SkiplistMaxLevel]uint32{}
 	x := sl.head
 
 	// Traverse the Skiplist from the highest level down to find the insertion point
@@ -179,7 +179,7 @@ func (sl *Skiplist) GetRank(score float64, ele string) uint32 {
 	return 0
 }
 
-func (sl *Skiplist) DeleteNode(x *SkiplistNode, update [SKIPLIST_MAX_LEVEL]*SkiplistNode) {
+func (sl *Skiplist) DeleteNode(x *SkiplistNode, update [SkiplistMaxLevel]*SkiplistNode) {
 	for i := 0; i < sl.level; i++ {
 		if update[i].levels[i].forward == x {
 			update[i].levels[i].span += x.levels[i].span - 1
@@ -201,7 +201,7 @@ func (sl *Skiplist) DeleteNode(x *SkiplistNode, update [SKIPLIST_MAX_LEVEL]*Skip
 }
 
 func (sl *Skiplist) Delete(score float64, ele string) int {
-	update := [SKIPLIST_MAX_LEVEL]*SkiplistNode{}
+	update := [SkiplistMaxLevel]*SkiplistNode{}
 	x := sl.head
 	for i := sl.level - 1; i >= 0; i-- {
 		for x.levels[i].forward != nil &&
@@ -221,7 +221,7 @@ func (sl *Skiplist) Delete(score float64, ele string) int {
 }
 
 func (sl *Skiplist) UpdateScore(curScore float64, ele string, newScore float64) *SkiplistNode {
-	update := [SKIPLIST_MAX_LEVEL]*SkiplistNode{}
+	update := [SkiplistMaxLevel]*SkiplistNode{}
 	x := sl.head
 	for i := sl.level - 1; i >= 0; i-- {
 		for x.levels[i].forward != nil &&
