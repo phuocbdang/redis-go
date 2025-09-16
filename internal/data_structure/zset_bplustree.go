@@ -1,5 +1,7 @@
 package data_structure
 
+const DEFAULT_BPLUS_TREE_DEGREE = 4
+
 type ZSetBPlusTree struct {
 	Tree         *BPlusTree
 	MemberScores map[string]float64

@@ -8,8 +8,6 @@ import (
 	"strconv"
 )
 
-const DEFAULT_BPLUS_TREE_DEGREE = 4
-
 func cmdZADD(args []string) []byte {
 	if len(args) < 3 {
 		return Encode(errors.New("(error) ERR wrong number of arguments for 'ZADD' command"), false)
@@ -27,7 +25,7 @@ func cmdZADD(args []string) []byte {
 	key := args[0]
 	zset, exist := zsetStore[key]
 	if !exist {
-		zset = data_structure.NewZSetBPlusTree(DEFAULT_BPLUS_TREE_DEGREE)
+		zset = data_structure.CreateZSet()
 		zsetStore[key] = zset
 	}
 
@@ -72,6 +70,6 @@ func cmdZRANK(args []string) []byte {
 	if !exist {
 		return constant.RespNil
 	}
-	rank := zset.GetRank(member)
+	rank, _ := zset.GetRank(member, false)
 	return Encode(rank, false)
 }
