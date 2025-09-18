@@ -1,25 +1,14 @@
 package core
 
 import (
+	"bytes"
 	"errors"
+	"fmt"
 	"redisgo/internal/constant"
+	"redisgo/internal/data_structure"
 	"strconv"
 	"time"
 )
-
-func cmdPING(args []string) []byte {
-	if len(args) > 1 {
-		return Encode(errors.New("ERR wrong number of arguments for 'ping' command"), false)
-	}
-
-	var res []byte
-	if len(args) == 0 {
-		res = Encode("PONG", true)
-	} else {
-		res = Encode(args[0], false)
-	}
-	return res
-}
 
 func cmdSET(args []string) []byte {
 	if len(args) < 2 || len(args) == 3 || len(args) > 4 {
@@ -77,4 +66,17 @@ func cmdTTL(args []string) []byte {
 	}
 
 	return Encode(int64(remainMs/1000), false)
+}
+
+func cmdINFO(args []string) []byte {
+	var info []byte
+	buf := bytes.NewBuffer(info)
+	buf.WriteString("# Keyspace\r\n")
+	buf.WriteString(fmt.Sprintf(
+		"db0:keys=%d,expires=%d,avg_ttl=%d\r\n",
+		data_structure.HashKeySpaceStat.Key,
+		data_structure.HashKeySpaceStat.Expire,
+		dictStore.GetAvgTtl(),
+	))
+	return Encode(buf.String(), false)
 }

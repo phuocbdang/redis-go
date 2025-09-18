@@ -16,6 +16,8 @@ func ExecuteAndResponse(cmd *Command, connFd int) error {
 		res = cmdGET(cmd.Args)
 	case "TTL":
 		res = cmdTTL(cmd.Args)
+	case "INFO":
+		res = cmdINFO(cmd.Args)
 	/* Set */
 	case "SADD":
 		res = cmdSADD(cmd.Args)
